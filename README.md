@@ -25,7 +25,29 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
-
+Create class DbImporter or other class extends AbstractImporter and implements ImportInterface:
 ```php
-<?= \ignatenkovnikita\csv\AutoloadExample::widget(); ?>```
+<?php
+class DbImporter extends AbstractImporter implements ImportInterface
+{
+    public function import($data, $params){
+        // your logic hear
+    }
+}
+?>
+```
+
+And example how use class:
+```php
+$importer = new CsvImporter();
+$importer->setData(new CsvReader([
+    'filename' => $fileName,
+        'fgetcsvOptions' => [
+    //  'delimiter' => '\n'
+    ],
+    'startFromLine' => 1
+    ]));
+$importerClass = new DbImporter();
+$r = $importer->import($importerClass, ['type' => $type]);
+echo $r
+```
